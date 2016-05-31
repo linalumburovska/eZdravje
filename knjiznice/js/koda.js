@@ -40,22 +40,24 @@ var tabela=[
     sessionId=getSessionId();
   
     var t=tabela[stPacienta-1];
-  $.ajaxSetup({
+    $.ajaxSetup({
 		    headers: {"Ehr-Session": sessionId}
-		});
+	});
     $.ajax({
     		    url: baseUrl + "/ehr",
     		    type: 'POST',
     		    success: function(ehr){
+    		        t.ehrId=ehr.ehrId;
     		        var partyData={
     		            firstNames: t.fn,
 		                lastNames: t.ln,
 		                dateOfBirth: t.dr,
 		                partyAdditionalInfo: [{key: "ehrId", value: ehr.ehrId}]
     		        };
-    		         $.ajax({
+    		        $.ajax({
 		                url: baseUrl + "/demographics/party",
 		                type: 'POST',
+		                contentType: 'application/json',
 		                data: JSON.stringify(partyData),
 		                success: function(party){
 		                    var podatki = {
@@ -76,10 +78,27 @@ var tabela=[
                     		    format: 'FLAT',
                     		    committer: 'medicinska sestra Magde Veselinova'
                     		};
-		                }
-    		        
-    		    }
+                			$.ajax({
+                    		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
+                    		    type: 'POST',
+                    		    contentType: 'application/json',
+                    		    data: JSON.stringify(podatki),
+                    		    success: function(comp){
+                    		        var ehrIds='<br>'+tabela[0].ehrId+'<br>'+ tabela[1].ehrId+'<br>'+ tabela[2].ehrId;
+                    		        $("#statusMessage").html("<span class='label label-success fade-in'>Uspešno kreirani tri EHR: " +ehrIds + ".</span>");
+                    		    }
+	                        })
+		                } 
+		                    
+		            })
+    		    }      
+
+    })    		            
 }
 
-
+function generirajPodatkeKlik(){
+    for(var i=1; i <= 3; i++){
+        generirajPodatke(i);
+    }
+};
 // TODO: Tukaj implementirate funkcionalnost, ki jo podpira vaša aplikacija
