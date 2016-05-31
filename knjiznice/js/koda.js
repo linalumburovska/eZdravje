@@ -21,6 +21,12 @@ function getSessionId() {
     return response.responseJSON.sessionId;
 }
 
+var tabela=[
+    {fn: 'Simona', ln: 'Markovska',dr: '1996-10-15T13:40Z',hl: 175, bw: 74, temp: 37.6, s: 119, d: 85, o: 97},
+    {fn: 'Trajko', ln: 'Bogdanovski',dr: '1975-08-25T19:55Z',hl: 186, bw: 80, temp: 38.4, s: 125, d: 65, o: 99},
+    {fn: 'Marina', ln: 'Burdus',dr: '1940-02-09T01:30Z',hl: 189, bw: 90, temp: 37.5, s: 130, d: 86, o: 95},
+];
+
 
 /**
  * Generator podatkov za novega pacienta, ki bo uporabljal aplikacijo. Pri
@@ -30,12 +36,49 @@ function getSessionId() {
  * @param stPacienta zaporedna številka pacienta (1, 2 ali 3)
  * @return ehrId generiranega pacienta
  */
-function generirajPodatke(stPacienta) {
-  ehrId = "";
-
-  // TODO: Potrebno implementirati
-
-  return ehrId;
+ function generirajPodatke(stPacienta) {
+    sessionId=getSessionId();
+  
+    var t=tabela[stPacienta-1];
+  $.ajaxSetup({
+		    headers: {"Ehr-Session": sessionId}
+		});
+    $.ajax({
+    		    url: baseUrl + "/ehr",
+    		    type: 'POST',
+    		    success: function(ehr){
+    		        var partyData={
+    		            firstNames: t.fn,
+		                lastNames: t.ln,
+		                dateOfBirth: t.dr,
+		                partyAdditionalInfo: [{key: "ehrId", value: ehr.ehrId}]
+    		        };
+    		         $.ajax({
+		                url: baseUrl + "/demographics/party",
+		                type: 'POST',
+		                data: JSON.stringify(partyData),
+		                success: function(party){
+		                    var podatki = {
+			            		    "ctx/language": "en",
+                        		    "ctx/territory": "SI",
+                        		    "ctx/time": '2016-05-31T11:20Z',
+                        		    "vital_signs/height_length/any_event/body_height_length": t.hl,
+                        		    "vital_signs/body_weight/any_event/body_weight": t.bw,
+                        		   	"vital_signs/body_temperature/any_event/temperature|magnitude": t.temp,
+                        		    "vital_signs/body_temperature/any_event/temperature|unit": "°C",
+                        		    "vital_signs/blood_pressure/any_event/systolic": t.s,
+                        		    "vital_signs/blood_pressure/any_event/diastolic": t.d,
+                        		    "vital_signs/indirect_oximetry:0/spo2|numerator": t.o,
+                        	};
+                    		var parametriZahteve = {
+                    		    ehrId: ehr.ehrId,
+                    		    templateId: 'Vital Signs',
+                    		    format: 'FLAT',
+                    		    committer: 'medicinska sestra Magde Veselinova'
+                    		};
+		                }
+    		        
+    		    }
 }
 
 
