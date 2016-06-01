@@ -47,7 +47,7 @@ var tabela=[
     		    url: baseUrl + "/ehr",
     		    type: 'POST',
     		    success: function(ehr){
-    		        t.ehrId=ehr.ehrId;
+    		       
     		        var partyData={
     		            firstNames: t.fn,
 		                lastNames: t.ln,
@@ -63,7 +63,7 @@ var tabela=[
 		                    var podatki = {
 			            		    "ctx/language": "en",
                         		    "ctx/territory": "SI",
-                        		    "ctx/time": '2016-05-31T11:20Z',
+                        		    
                         		    "vital_signs/height_length/any_event/body_height_length": t.hl,
                         		    "vital_signs/body_weight/any_event/body_weight": t.bw,
                         		   	"vital_signs/body_temperature/any_event/temperature|magnitude": t.temp,
@@ -84,6 +84,7 @@ var tabela=[
                     		    contentType: 'application/json',
                     		    data: JSON.stringify(podatki),
                     		    success: function(comp){
+                    		        t.ehrId=ehr.ehrId;
                     		        var ehrIds='<br>'+tabela[0].ehrId+'<br>'+ tabela[1].ehrId+'<br>'+ tabela[2].ehrId;
                     		        $("#statusMessage").html("<span class='label label-success fade-in'>Uspešno kreirani tri EHR: " +ehrIds + ".</span>");
                     		        $("#selectPatient").html('<option/>');
