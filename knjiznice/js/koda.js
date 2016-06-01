@@ -86,6 +86,10 @@ var tabela=[
                     		    success: function(comp){
                     		        var ehrIds='<br>'+tabela[0].ehrId+'<br>'+ tabela[1].ehrId+'<br>'+ tabela[2].ehrId;
                     		        $("#statusMessage").html("<span class='label label-success fade-in'>Uspešno kreirani tri EHR: " +ehrIds + ".</span>");
+                    		        $("#selectPatient").html('<option/>');
+                    		        for(var i=0; i<tabela.length; i++){
+                    		            $("#selectPatient").append($('<option>', { value : tabela[i].ehrId}).text(tabela[i].fn+' '+tabela[i].ln));
+                    		        }
                     		    }
 	                        })
 		                } 
