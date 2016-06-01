@@ -47,7 +47,8 @@
 					<div class="panel-heading">
             <div class="row">
     							<div class="col-lg-8 col-md-8 col-sm-8 form-horizontal">
-    							  EHR ID: <input id="ehrId" type="text" >
+    							  EHR ID: <input id="manualEhrId" type="text" >
+    							  <button type="button" onclick="popolniPodatki($('#manualEhrId').val())">Preberi</button>
     							</div>
     							<div class="col-lg-4 col-md-4 col-sm-4">
     							  <select class="form-control input-sm" id="selectPatient" onchange="popolniPodatki(this.value)"></select>
@@ -55,6 +56,8 @@
     				</div>
     			</div>
     			<div class="panel-body">
+    			  <span class="label label-default">Ime</span><input id="Ime" type="text" class="form-control input-mini" readonly>
+						<span class="label label-default">Priimek</span><input id="Priimek" type="text" class="form-control input-mini" readonly>
 						<span class="label label-default">EHR ID</span><input id="EHR" type="text" class="form-control input-mini" readonly>
 						<span class="label label-default">Datum in ura</span><input id="DatumInUra" type="text" class="form-control input-mini" readonly>
 						<span class="label label-default">Telesna višina</span><div class="input-group"><input id="TelesnaVisina" type="text" class="form-control input-mini" readonly><span class="input-group-addon">cm</span></div>

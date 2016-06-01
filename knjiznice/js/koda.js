@@ -109,6 +109,8 @@ function generirajPodatkeKlik(){
 
 function popolniPodatki(ehrId){
     if(!ehrId){
+       $('#Ime').val('');
+       $('#Priimek').val('');
        $('#EHR').val('');
        $('#DatumInUra').val('');
        $('#TelesnaVisina').val('');
@@ -129,6 +131,8 @@ function popolniPodatki(ehrId){
 			url: baseUrl + "/demographics/ehr/" + ehrId + "/party",
 			type: 'GET',
 			success: function(data){
+			    $('#Ime').val(data.party.firstNames);
+	    	    $('#Priimek').val(data.party.lastNames);
 	    	    $('#EHR').val(ehrId);
 	    	    $('#DatumInUra').val(data.party.dateOfBirth);
 	    	    
