@@ -37,7 +37,7 @@ var tabela=[
  * @return ehrId generiranega pacienta
  */
  function generirajPodatke(stPacienta) {
-    sessionId=getSessionId();
+    var sessionId=getSessionId();
   
     var t=tabela[stPacienta-1];
     $.ajaxSetup({
@@ -76,7 +76,7 @@ var tabela=[
                     		    ehrId: ehr.ehrId,
                     		    templateId: 'Vital Signs',
                     		    format: 'FLAT',
-                    		    committer: 'medicinska sestra Magde Veselinova'
+                    		    
                     		};
                 			$.ajax({
                     		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
@@ -105,4 +105,61 @@ function generirajPodatkeKlik(){
         generirajPodatke(i);
     }
 };
-// TODO: Tukaj implementirate funkcionalnost, ki jo podpira vaša aplikacija
+
+function popolniPodatki(ehrId){
+    var sessionId=getSessionId();
+  
+    $.ajaxSetup({
+		    headers: {"Ehr-Session": sessionId}
+	});
+    $.ajax({
+			url: baseUrl + "/demographics/ehr/" + ehrId + "/party",
+			type: 'GET',
+			success: function(data){
+	    	    $('#EHR').val(ehrId);
+	    	    $('#DatumInUra').val(data.party.dateOfBirth);
+	    	    
+	    	    $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/height",
+	    	        type: 'GET',
+	    	        success: function(heights){
+	    	            $('#TelesnaVisina').val(heights[0].height);
+	    	        }
+	    	    });
+	    	    
+	    	     $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/weight",
+	    	        type: 'GET',
+	    	        success: function(weights){
+	    	            $('#TelesnaTeza').val(weights[0].weight);
+	    	        }
+	    	    });
+	    	    
+	    	   $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/body_temperature",
+	    	        type: 'GET',
+	    	        success: function(temperatures){
+	    	            $('#TelesnaTemperatura').val(temperatures[0].temperature);
+	    	        }
+	    	    });
+	    	    
+	    	    $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/blood_pressure",
+	    	        type: 'GET',
+	    	        success: function(pressures){
+	    	            $('#KrvniTlakSistolicni').val(pressures[0].systolic);
+	    	            $('#KrvniTlakDiastolicni').val(pressures[0].diastolic);
+	    	        }
+	    	    });
+	    	    
+	    	    $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/spO2",
+	    	        type: 'GET',
+	    	        success: function(spO2){
+	    	            $('#NasicenostKrviSKisikom').val(spO2[0].spO2);
+	    	        }
+	    	    });
+	    	    
+	    	}
+    })
+}

@@ -50,7 +50,7 @@
     							  EHR ID: <input id="ehrId" type="text" >
     							</div>
     							<div class="col-lg-4 col-md-4 col-sm-4">
-    							  <select class="form-control input-sm" id="selectPatient"></select>
+    							  <select class="form-control input-sm" id="selectPatient" onchange="popolniPodatki(this.value)"></select>
     							</div>
     				</div>
     			</div>
@@ -63,7 +63,7 @@
 						<span class="label label-default">Sistolični krvni tlak</span><div class="input-group"><input id="KrvniTlakSistolicni" type="text" class="form-control input-mini" ><span class="input-group-addon">mm Hg</span></div>
 						<span class="label label-default">Diastolični krvni tlak</span><div class="input-group"><input id="KrvniTlakDiastolicni" type="text" class="form-control input-mini" ><span class="input-group-addon">mm Hg</span></div>
 						<span class="label label-default">Nasičenost krvi s kisikom</span><div class="input-group"><input id="NasicenostKrviSKisikom" type="text" class="form-control input-mini" ><span class="input-group-addon">%</span></div>
-						<span class="label label-default">Merilec</span><input id="Merilec" type="text" class="form-control input-mini" >
+						
 				  </div>
         </div>
       </div>
