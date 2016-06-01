@@ -107,6 +107,18 @@ function generirajPodatkeKlik(){
 };
 
 function popolniPodatki(ehrId){
+    if(!ehrId){
+       $('#EHR').val('');
+       $('#DatumInUra').val('');
+       $('#TelesnaVisina').val('');
+       $('#TelesnaTeza').val('');
+       $('#TelesnaTemperatura').val('');
+       $('#KrvniTlakSistolicni').val('');
+       $('#KrvniTlakDiastolicni').val('');
+       $('#NasicenostKrviSKisikom').val('');
+       return;
+    }
+    
     var sessionId=getSessionId();
   
     $.ajaxSetup({
