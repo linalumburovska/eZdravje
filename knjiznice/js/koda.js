@@ -40,12 +40,11 @@ var tabela=[
     var sessionId=getSessionId();
   
     var t=tabela[stPacienta-1];
-    $.ajaxSetup({
-		    headers: {"Ehr-Session": sessionId}
-	});
+    
     $.ajax({
     		    url: baseUrl + "/ehr",
     		    type: 'POST',
+    		    headers: {"Ehr-Session": sessionId},
     		    success: function(ehr){
     		       
     		        var partyData={
@@ -57,6 +56,7 @@ var tabela=[
     		        $.ajax({
 		                url: baseUrl + "/demographics/party",
 		                type: 'POST',
+		                headers: {"Ehr-Session": sessionId},
 		                contentType: 'application/json',
 		                data: JSON.stringify(partyData),
 		                success: function(party){
@@ -82,6 +82,7 @@ var tabela=[
                 			$.ajax({
                     		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
                     		    type: 'POST',
+                    		    headers: {"Ehr-Session": sessionId},
                     		    contentType: 'application/json',
                     		    data: JSON.stringify(podatki),
                     		    success:function(vitalSignsComp){
@@ -100,6 +101,7 @@ var tabela=[
 		                			$.ajax({
 		                    		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
 		                    		    type: 'POST',
+		                    		    headers: {"Ehr-Session": sessionId},
 		                    		    contentType: 'application/json',
 		                    		    data: JSON.stringify(podatki),
 		                    		    success: function(allergiesComp){
@@ -147,12 +149,10 @@ function popolniPodatki(ehrId){
     
     var sessionId=getSessionId();
   
-    $.ajaxSetup({
-		    headers: {"Ehr-Session": sessionId}
-	});
     $.ajax({
 			url: baseUrl + "/demographics/ehr/" + ehrId + "/party",
 			type: 'GET',
+			headers: {"Ehr-Session": sessionId},
 			success: function(data){
 			    $('#Ime').val(data.party.firstNames);
 	    	    $('#Priimek').val(data.party.lastNames);
@@ -162,6 +162,7 @@ function popolniPodatki(ehrId){
 	    	    $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/height",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(heights){
 	    	            $('#TelesnaVisina').val(heights[0].height);
 	    	        }
@@ -170,6 +171,7 @@ function popolniPodatki(ehrId){
 	    	     $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/weight",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(weights){
 	    	            $('#TelesnaTeza').val(weights[0].weight);
 	    	        }
@@ -178,6 +180,7 @@ function popolniPodatki(ehrId){
 	    	   $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/body_temperature",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(temperatures){
 	    	            $('#TelesnaTemperatura').val(temperatures[0].temperature);
 	    	        }
@@ -186,6 +189,7 @@ function popolniPodatki(ehrId){
 	    	    $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/blood_pressure",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(pressures){
 	    	            $('#KrvniTlakSistolicni').val(pressures[0].systolic);
 	    	            $('#KrvniTlakDiastolicni').val(pressures[0].diastolic);
@@ -195,6 +199,7 @@ function popolniPodatki(ehrId){
 	    	    $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/spO2",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(spO2){
 	    	            $('#NasicenostKrviSKisikom').val(spO2[0].spO2);
 	    	        }
@@ -202,8 +207,22 @@ function popolniPodatki(ehrId){
 	    	    $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/allergy",
 	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(allergies){
 	    	            $('#Alergija').val(allergies[0].agent);
+	    	            $.ajax({
+	    	            	url: 'https://api.duckduckgo.com/?q='+allergies[0].agent+'+allergy&format=json&pretty=1',
+	    	            	type: 'GET',
+	    	            	dataType: 'jsonp',
+	    	            	
+	    	            	success: function(results){
+	    	            		
+	    	            		for(var i=0; i<results.RelatedTopics.length; i++){
+	    	            			
+	    	            			$("#allergyResults").append(results.RelatedTopics[i].Result);
+	    	            		}
+	    	            	}
+	    	            })
 	    	        }
 	    	    });
 	    	}
