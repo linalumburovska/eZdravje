@@ -22,9 +22,9 @@ function getSessionId() {
 }
 
 var tabela=[
-    {fn: 'Simona', ln: 'Markovska',dr: '1996-10-15T13:40Z',hl: 175, bw: 74, temp: 37.6, s: 119, d: 85, o: 97},
-    {fn: 'Trajko', ln: 'Bogdanovski',dr: '1975-08-25T19:55Z',hl: 186, bw: 80, temp: 38.4, s: 125, d: 65, o: 99},
-    {fn: 'Marina', ln: 'Burdus',dr: '1940-02-09T01:30Z',hl: 189, bw: 90, temp: 37.5, s: 130, d: 86, o: 95},
+    {fn: 'Simona', ln: 'Markovska',dr: '1996-10-15T13:40Z',hl: 175, bw: 74, temp: 37.6, s: 119, d: 85, o: 97,a: 'Milk'},
+    {fn: 'Trajko', ln: 'Bogdanovski',dr: '1975-08-25T19:55Z',hl: 186, bw: 80, temp: 38.4, s: 125, d: 65, o: 99,a: 'Egg'},
+    {fn: 'Marina', ln: 'Burdus',dr: '1940-02-09T01:30Z',hl: 189, bw: 90, temp: 37.5, s: 130, d: 86, o: 95,a: 'Nut'},
 ];
 
 
@@ -71,6 +71,7 @@ var tabela=[
                         		    "vital_signs/blood_pressure/any_event/systolic": t.s,
                         		    "vital_signs/blood_pressure/any_event/diastolic": t.d,
                         		    "vital_signs/indirect_oximetry:0/spo2|numerator": t.o,
+                        		
                         	};
                     		var parametriZahteve = {
                     		    ehrId: ehr.ehrId,
@@ -83,14 +84,35 @@ var tabela=[
                     		    type: 'POST',
                     		    contentType: 'application/json',
                     		    data: JSON.stringify(podatki),
-                    		    success: function(comp){
-                    		        t.ehrId=ehr.ehrId;
-                    		        var ehrIds='<br>'+tabela[0].ehrId+'<br>'+ tabela[1].ehrId+'<br>'+ tabela[2].ehrId;
-                    		        $("#statusMessage").html("<span class='label label-success fade-in'>Uspešno kreirani tri EHR: " +ehrIds + ".</span>");
-                    		        $("#selectPatient").html('<option/>');
-                    		        for(var i=0; i<tabela.length; i++){
-                    		            $("#selectPatient").append($('<option>', { value : tabela[i].ehrId}).text(tabela[i].fn+' '+tabela[i].ln));
-                    		        }
+                    		    success:function(vitalSignsComp){
+                    		    	 var podatki = {
+				            		    "ctx/language": "en",
+	                        		    "ctx/territory": "SI",
+	                        		  
+	                        		    "allergies/adverse_reaction_-_allergy:0/substance_agent": t.a,
+                        			};
+		                    		var parametriZahteve = {
+		                    		    ehrId: ehr.ehrId,
+		                    		    templateId: 'Allergies',
+		                    		    format: 'FLAT',
+		                    		    
+		                    		};
+		                			$.ajax({
+		                    		    url: baseUrl + "/composition?" + $.param(parametriZahteve),
+		                    		    type: 'POST',
+		                    		    contentType: 'application/json',
+		                    		    data: JSON.stringify(podatki),
+		                    		    success: function(allergiesComp){
+		                    		        t.ehrId=ehr.ehrId;
+		                    		        var ehrIds='<br>'+tabela[0].ehrId+'<br>'+ tabela[1].ehrId+'<br>'+ tabela[2].ehrId;
+		                    		        $("#statusMessage").html("<span class='label label-success fade-in'>Uspešno kreirani tri EHR: " +ehrIds + ".</span>");
+		                    		        $("#selectPatient").html('<option/>');
+		                    		        for(var i=0; i<tabela.length; i++){
+		                    		            $("#selectPatient").append($('<option>', { value : tabela[i].ehrId}).text(tabela[i].fn+' '+tabela[i].ln));
+		                    		        }
+		                    		    }
+		        
+		                    		 })
                     		    }
 	                        })
 		                } 
@@ -119,6 +141,7 @@ function popolniPodatki(ehrId){
        $('#KrvniTlakSistolicni').val('');
        $('#KrvniTlakDiastolicni').val('');
        $('#NasicenostKrviSKisikom').val('');
+       $('#Alergija').val('');
        return;
     }
     
@@ -176,7 +199,13 @@ function popolniPodatki(ehrId){
 	    	            $('#NasicenostKrviSKisikom').val(spO2[0].spO2);
 	    	        }
 	    	    });
-	    	    
+	    	    $.ajax({
+	    	        url: baseUrl+ "/view/"+ehrId+"/allergy",
+	    	        type: 'GET',
+	    	        success: function(allergies){
+	    	            $('#Alergija').val(allergies[0].agent);
+	    	        }
+	    	    });
 	    	}
     })
 }
