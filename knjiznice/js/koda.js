@@ -21,6 +21,57 @@ function getSessionId() {
     return response.responseJSON.sessionId;
 }
 
+function kreirajEHRzaBolnika() {
+	sessionId = getSessionId();
+
+	var ime = $("#kreirajIme").val();
+	var priimek = $("#kreirajPriimek").val();
+	var datumRojstva = $("#kreirajDatumRojstva").val();
+
+	if (!ime || !priimek || !datumRojstva || ime.trim().length == 0 ||
+      priimek.trim().length == 0 || datumRojstva.trim().length == 0) {
+		$("#kreirajSporocilo").html("<span class='obvestilo label " +
+      "label-warning fade-in'>Prosim vnesite zahtevane podatke!</span>");
+	} else {
+		$.ajaxSetup({
+		    headers: {"Ehr-Session": sessionId}
+		});
+		$.ajax({
+		    url: baseUrl + "/ehr",
+		    type: 'POST',
+		    success: function (data) {
+		        var ehrId = data.ehrId;
+		        var partyData = {
+		            firstNames: ime,
+		            lastNames: priimek,
+		            dateOfBirth: datumRojstva,
+		            partyAdditionalInfo: [{key: "ehrId", value: ehrId}]
+		        };
+		        $.ajax({
+		            url: baseUrl + "/demographics/party",
+		            type: 'POST',
+		            contentType: 'application/json',
+		            data: JSON.stringify(partyData),
+		            success: function (party) {
+		                if (party.action == 'CREATE') {
+		                    $("#kreirajSporocilo").html("<span class='obvestilo " +
+                          "label label-success fade-in'>Uspešno kreiran EHR '" +
+                          ehrId + "'.</span>");
+		                    $("#preberiEHRid").val(ehrId);
+		                }
+		            },
+		            error: function(err) {
+		            	$("#kreirajSporocilo").html("<span class='obvestilo label " +
+                    "label-danger fade-in'>Napaka '" +
+                    JSON.parse(err.responseText).userMessage + "'!");
+		            }
+		        });
+		    }
+		});
+	}
+}
+
+
 var tabela=[
     {fn: 'Simona', ln: 'Markovska',dr: '1996-10-15T13:40Z',hl: 175, bw: 74, temp: 37.6, s: 119, d: 85, o: 97,a: 'Milk'},
     {fn: 'Trajko', ln: 'Bogdanovski',dr: '1975-08-25T19:55Z',hl: 186, bw: 80, temp: 38.4, s: 125, d: 65, o: 99,a: 'Egg'},
@@ -228,3 +279,28 @@ function popolniPodatki(ehrId){
 	    	}
     })
 }
+
+$("#dodadi").click(function(){
+	var alergija=$("#Alergija").val();
+	var ehrIdNovo=
+	$.ajax({
+	    	        url: baseUrl+ "/view/"+ehrIdNovo+"/allergy",
+	    	        type: 'GET',
+	    	        headers: {"Ehr-Session": sessionId},
+	    	        success: function(){
+	    	            $.ajax({
+	    	            	url: 'https://api.duckduckgo.com/?q='+alergija+'+allergy&format=json&pretty=1',
+	    	            	type: 'GET',
+	    	            	dataType: 'jsonp',
+	    	            	
+	    	            	success: function(results){
+	    	            		
+	    	            		for(var i=0; i<results.RelatedTopics.length; i++){
+	    	            			
+	    	            			$("#allergyResults").append(results.RelatedTopics[i].Result);
+	    	            		}
+	    	            	}
+	    	            })
+	    	        }
+	    	    });
+});
