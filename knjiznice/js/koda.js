@@ -180,6 +180,7 @@ var tabela=[
 		                    		            $("#selectPatient").append($('<option>', { value : tabela[i].ehrId}).text(tabela[i].fn+' '+tabela[i].ln));
 		                    		            
 		                    		        }
+		                    		        prikaziGraf();
 		                    		    }
 		        
 		                    		 })
@@ -297,7 +298,96 @@ function popolniPodatki(ehrId){
 	    	            })
 	    	        }
 	    	    });
+	    	    
+	    	    
 	    	}
     })
 }
 
+
+function prikaziGraf(){
+	AmCharts.makeChart("chartdiv", {
+		"type": "serial",
+	    "theme": "light",
+		"categoryField": "fn",
+		"rotate": false,
+		"startDuration": 1,
+		"categoryAxis": {
+			"gridPosition": "start",
+			"position": "left"
+		},
+		"trendLines": [],
+		"graphs": [
+			{
+				"balloonText": "Visina:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-1",
+				"lineAlpha": 0.2,
+				"title": "Visina",
+				"type": "column",
+				"valueField": "hl"
+			},
+			{
+				"balloonText": "Teza:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-2",
+				"lineAlpha": 0.2,
+				"title": "Teza",
+				"type": "column",
+				"valueField": "bw"
+			},
+			{
+				"balloonText": "Temperatura:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-3",
+				"lineAlpha": 0.2,
+				"title": "Temperatura",
+				"type": "column",
+				"valueField": "temp"
+			},
+			{
+				"balloonText": "Sistolicen:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-4",
+				"lineAlpha": 0.2,
+				"title": "Sistolicen",
+				"type": "column",
+				"valueField": "s"
+			},
+			{
+				"balloonText": "Diastolicen:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-5",
+				"lineAlpha": 0.2,
+				"title": "Diastolicen",
+				"type": "column",
+				"valueField": "d"
+			},
+			{
+				"balloonText": "Kisik:[[value]]",
+				"fillAlphas": 0.8,
+				"id": "AmGraph-6",
+				"lineAlpha": 0.2,
+				"title": "Kisik",
+				"type": "column",
+				"valueField": "o"
+			},
+		],
+		"guides": [],
+		"valueAxes": [
+			{
+				"id": "ValueAxis-1",
+				"position": "top",
+				"axisAlpha": 0
+			}
+		],
+		"allLabels": [],
+		"balloon": {},
+		"titles": [],
+		"dataProvider": tabela,
+	    "export": {
+	    	"enabled": true
+	     }
+	
+	});
+}
