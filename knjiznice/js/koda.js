@@ -58,7 +58,18 @@ function kreirajEHRzaBolnika() {
                           "label label-success fade-in'>Uspešno kreiran EHR '" +
                           ehrId + "'.</span>");
 		                    $("#preberiEHRid").val(ehrId);
-				            
+				            $('#Ime').val('');
+					    	$('#Priimek').val('');
+					    	$('#EHR').val('');
+					    	$('#DatumInUra').val('');
+					    	$('#TelesnaVisina').val('');
+					    	$('#TelesnaTeza').val('');
+					    	$('#TelesnaTemperatura').val('');
+					    	$('#KrvniTlakSistolicni').val('');
+					    	$('#KrvniTlakDiastolicni').val('');
+					    	$('#NasicenostKrviSKisikom').val('');
+					    	$('#Alergija').val('');
+					    	$("#allergyResults").val('');
 		                }
 		            },
 		            error: function(err) {
@@ -167,6 +178,7 @@ var tabela=[
 		                    		        $("#selectPatient").html('<option/>');
 		                    		        for(var i=0; i<tabela.length; i++){
 		                    		            $("#selectPatient").append($('<option>', { value : tabela[i].ehrId}).text(tabela[i].fn+' '+tabela[i].ln));
+		                    		            
 		                    		        }
 		                    		    }
 		        
@@ -200,7 +212,7 @@ function popolniPodatki(ehrId){
        $('#KrvniTlakDiastolicni').val('');
        $('#NasicenostKrviSKisikom').val('');
        $('#Alergija').val('');
-       $("#allergyResults").val('');
+       $("#allergyResults").html('');
        return;
     }
     
@@ -274,6 +286,7 @@ function popolniPodatki(ehrId){
 	    	            	dataType: 'jsonp',
 	    	            	
 	    	            	success: function(results){
+	    	            		$("#allergyResults").html('');
 			    	           	for(var i=0; i<results.RelatedTopics.length; i++){
 	    	            			
 	    	            			$("#allergyResults").append("<p>"+results.RelatedTopics[i].Result+"</p>");

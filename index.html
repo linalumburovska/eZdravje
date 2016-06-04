@@ -45,21 +45,7 @@
         <div class="panel panel-default">
 					<div class="panel-heading">
             <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-6">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col-lg-8 col-md-8 col-sm-8"><b>Kreiraj EHR zapis</b> za novega bolnika</div>
-						</div>
-					</div>
-					<div class="panel-body">
-						<span class="label label-default">Ime</span><input id="kreirajIme" type="text" class="form-control input-mini">
-						<span class="label label-default">Priimek</span><input id="kreirajPriimek" type="text" class="form-control">
-						<span class="label label-default">Datum rojstva</span><input id="kreirajDatumRojstva" type="text" class="form-control">
-						<button type="button" class="btn btn-primary btn-xs" onclick="kreirajEHRzaBolnika()">Dodaj osnovne podatke o bolniku</button><span id="kreirajSporocilo"></span>
-				  	</div>
-				</div>
-			</div>
+              
     							<div class="col-lg-8 col-md-8 col-sm-8 form-horizontal">
     							  EHR ID: <input id="manualEhrId" type="text" >
     							  <button type="button" onclick="popolniPodatki($('#manualEhrId').val())">Preberi</button>
@@ -86,7 +72,6 @@
 						<span class="label label-default">Sistolični krvni tlak</span><div class="input-group"><input id="KrvniTlakSistolicni" type="text" class="form-control input-mini"><span class="input-group-addon">mm Hg</span></div>
 						<span class="label label-default">Diastolični krvni tlak</span><div class="input-group"><input id="KrvniTlakDiastolicni" type="text" class="form-control input-mini"><span class="input-group-addon">mm Hg</span></div>
 						<span class="label label-default">Nasičenost krvi s kisikom</span><div class="input-group"><input id="NasicenostKrviSKisikom" type="text" class="form-control input-mini"><span class="input-group-addon">%</span></div>
-						<button type="button" id="dodadi">Dodaj vitalni znaki</button>
 						
 				  </div>
         </div>
@@ -107,6 +92,23 @@
 				  </div>
         </div>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-8 col-md-8 col-sm-8"><b>Kreiraj EHR zapis</b> za novega bolnika</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<span class="label label-default">Ime</span><input id="kreirajIme" type="text" class="form-control input-mini">
+						<span class="label label-default">Priimek</span><input id="kreirajPriimek" type="text" class="form-control">
+						<span class="label label-default">Datum rojstva</span><input id="kreirajDatumRojstva" type="text" class="form-control">
+						<button type="button" class="btn btn-primary btn-xs" onclick="kreirajEHRzaBolnika()">Dodaj osnovne podatke o bolniku</button><span id="kreirajSporocilo"></span>
+				  	</div>
+				</div>
+			</div>
     </div>
   </div>
   <!-- KONEC: Vsebina aplikacije -->
