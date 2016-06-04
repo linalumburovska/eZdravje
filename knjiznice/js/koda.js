@@ -58,6 +58,7 @@ function kreirajEHRzaBolnika() {
                           "label label-success fade-in'>Uspešno kreiran EHR '" +
                           ehrId + "'.</span>");
 		                    $("#preberiEHRid").val(ehrId);
+				            
 		                }
 		            },
 		            error: function(err) {
@@ -65,10 +66,14 @@ function kreirajEHRzaBolnika() {
                     "label-danger fade-in'>Napaka '" +
                     JSON.parse(err.responseText).userMessage + "'!");
 		            }
+		            
 		        });
 		    }
 		});
+		
 	}
+	
+	
 }
 
 
@@ -195,6 +200,7 @@ function popolniPodatki(ehrId){
        $('#KrvniTlakDiastolicni').val('');
        $('#NasicenostKrviSKisikom').val('');
        $('#Alergija').val('');
+       $("#allergyResults").val('');
        return;
     }
     
@@ -255,11 +261,12 @@ function popolniPodatki(ehrId){
 	    	            $('#NasicenostKrviSKisikom').val(spO2[0].spO2);
 	    	        }
 	    	    });
-	    	    $.ajax({
+	    	   $.ajax({
 	    	        url: baseUrl+ "/view/"+ehrId+"/allergy",
 	    	        type: 'GET',
 	    	        headers: {"Ehr-Session": sessionId},
 	    	        success: function(allergies){
+	    	        	
 	    	            $('#Alergija').val(allergies[0].agent);
 	    	            $.ajax({
 	    	            	url: 'https://api.duckduckgo.com/?q='+allergies[0].agent+'+allergy&format=json&pretty=1',
@@ -267,11 +274,12 @@ function popolniPodatki(ehrId){
 	    	            	dataType: 'jsonp',
 	    	            	
 	    	            	success: function(results){
-	    	            		
-	    	            		for(var i=0; i<results.RelatedTopics.length; i++){
+			    	           	for(var i=0; i<results.RelatedTopics.length; i++){
 	    	            			
-	    	            			$("#allergyResults").append(results.RelatedTopics[i].Result);
-	    	            		}
+	    	            			$("#allergyResults").append("<p>"+results.RelatedTopics[i].Result+"</p>");
+	    	            			
+			    	           	}
+				    	        	
 	    	            	}
 	    	            })
 	    	        }
@@ -280,27 +288,3 @@ function popolniPodatki(ehrId){
     })
 }
 
-$("#dodadi").click(function(){
-	var alergija=$("#Alergija").val();
-	var ehrIdNovo=
-	$.ajax({
-	    	        url: baseUrl+ "/view/"+ehrIdNovo+"/allergy",
-	    	        type: 'GET',
-	    	        headers: {"Ehr-Session": sessionId},
-	    	        success: function(){
-	    	            $.ajax({
-	    	            	url: 'https://api.duckduckgo.com/?q='+alergija+'+allergy&format=json&pretty=1',
-	    	            	type: 'GET',
-	    	            	dataType: 'jsonp',
-	    	            	
-	    	            	success: function(results){
-	    	            		
-	    	            		for(var i=0; i<results.RelatedTopics.length; i++){
-	    	            			
-	    	            			$("#allergyResults").append(results.RelatedTopics[i].Result);
-	    	            		}
-	    	            	}
-	    	            })
-	    	        }
-	    	    });
-});
