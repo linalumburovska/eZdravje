@@ -45,21 +45,13 @@
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Opis ideje, ki jo aplikacija podpira -->
-            <p><strong>Glavna ideja</strong>: Možgani valovi so pomebni za naše zdravje ker če so ven od ravnovejse lahko se zgodi da imamo težave s nevro-fizikalni sistem. To je glavni cilj te aplikacije, da poleg osnovne podatke za vsaka oseba se vnesujejo podatke za možgani valovi v Hertzi, ker oni so odvisni od to kaj mi delamo. Če so nižji potem se 
-občutimo otrujeno sicer pa  hiperaktivno. Imamo pet tipov valovov odvisno od 
-frekvence, tako da aplikacija  bo delovala: za pet različne aktivnoste kateri delaš vneses podatki(poleg osebni ) in dobis EHR 
-<br>ID .Bolj podrobno povedano :</br> 
-<div align="left">
-<ul>
-<li>delta valovi(0.5-4Hz) koma in globoko spanje</li>
-<li>theta valovi(4-8Hz) emocije, trans stanje in sanjanje</li>
-<li>alpha valovi(8-13Hz) meja med svest in nesvest, svesno stanje s otprti oči</li>
-<li>beta valovi(13-30Hz) svestno, koncentrirano stanje</li>
-<li>gamma valvoi(30-42Hz) visoka energija</li>
-</ul>
+            <p><strong>Glavna ideja:</strong> Uporaba na ta aplikacija omogoca da najprej imamo kreiranje na en pacienta s pomočjo na osnovne podatke, tako da dobi svoji EHR ID;drug nacin da
+dobi EHR ID je da je izbran iz padajočega menija. Za vsak pacient imamo izpisovanje na negovi vitalni znaki v kateri sem dodala še polje za alergija-tisto je glavni namen. V to polje dobimo 
+hrana na katera ima alergija (Opazorilo: Posamezna hrana mora biti v ednini!!!). Kadar ima sestavina na katera je alergičen/na potem dobi seznam povezavi in zdraven povezava je pojasnitev katera 
+informacija dobi s pomočjo na jo. Odvisno od to kaj rabi:recimo katera hrana lahko poje, katera bolest lahko dobi, kaj da naredi če ima nekatero določeno stanje-uporabnik si izbere ustrezno s svoji 
+potrebi in zahtevi.
 
-Ciljna publika je vsako kdo želi da poleg osnovne raziskave na en različen 
-način pogleda kaj se res zgodi v psihološki sistem na človekovi organizam. </div> </p>
+<br>Ciljna publika je vsako kdo želi da raziskuje za svoje alergije kaj naj naredi da ne bo imel še večje tezave v nadaljevanju.</br> </p>
             <!-- KONEC: Opis ideje, ki jo aplikacija podpira -->
           </div>
         </div>
@@ -70,7 +62,9 @@ način pogleda kaj se res zgodi v psihološki sistem na človekovi organizam. </
           <div class="panel-body">
             <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
             <p><strong>Zunajni vir:</strong> <a href="https://api.duckduckgo.com/api">https://api.duckduckgo.com/api</a> </p>
-            <p>Dodaj za brskalnik!-Namen zakaj sem uporabila tisti zunajni vir je tako da s njegova uporaba naj se bo prikažali podatki da se bolj informiraš kadar se nahajaš v posamezni fazi. </p>
+            <p>Namen zakaj sem uporabila tisti zunajni vir je tako da s njegov klic dobimo podatke za pomoc na ljudi kateri rabijo informacije za možnih dogotvkov in posledice. Kadar vnese podatek za alergicna sestavina
+            zunajni vir deluje tako da doda beseda "allergy" in na tisti nacin vrne rezultate v obliki na seznam s povezave in razlozitev zakaj naj uporabnik dostopa do posamezna povezava.
+            </p>
             <!-- KONEC: Uporabljeni zunanji viri podatkov -->
           </div>
         </div>
@@ -80,7 +74,9 @@ način pogleda kaj se res zgodi v psihološki sistem na človekovi organizam. </
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Master/detail načrtovalski vzorec -->
-            <p><strong>Ideja:</strong>To bom implementirala tako da kadar izbereš posamezna oseba, dobiš poleg osnovne podatke, še podatke za vse stanja v kateri se nahaja ta oseba.</p>
+            <p><strong>Ideja:</strong>Implementacija na master/detail je narejena tako da kadar imamo pacient za tisti dobimo nekoliko mogocnosti kateri lahko jih izbere da zadosca potrebe. Zunajni vir
+            to vrne v obliki na povezava in za vsaka posamezna povezava s klik dobimo se podrobnosti.
+            </p>
             <!-- KONEC: Master/detail načrtovalski vzorec -->
           </div>
         </div>
@@ -90,7 +86,7 @@ način pogleda kaj se res zgodi v psihološki sistem na človekovi organizam. </
           </div>
           <div class="panel-body">
             <!-- ZAČETEK: Uporabljeni zunanji viri podatkov -->
-            <p><strong>Tehnika vizualizacija podatkov:</strong> Sem uporabila Radar Chart Redesign <a href="http://bl.ocks.org/nbremer/21746a9668ffdf6d8242">http://bl.ocks.org/nbremer/21746a9668ffdf6d8242</a>, ker on se uporabi za pretstavitev na različnih nivojev, pa najlažje je prikažati različni fazi na človeka kot različni novoji.</p>
+            <p><strong>Tehnika vizualizacija podatkov:</strong> Sem uporabila Clustered Bar Chart <a href="https://www.amcharts.com/demos/clustered-bar-chart/">https://www.amcharts.com/demos/clustered-bar-chart</a>.Razlog je to da poleg informacije za alergije pretstavim se ostali vitalnih znakov na en preprost nacin kjer podam statistika za vse vnesene podatke.</p>
             <!-- KONEC: Uporabljeni zunanji viri podatkov -->
           </div>
         </div>
